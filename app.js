@@ -4,7 +4,6 @@
 const configuration = require('./app/controllers/configuration');
 const importController = require('./app/controllers/import');
 const exportController = require('./app/controllers/export');
-//const copyController = require('./app/controllers/commandController');
 
 /**
  *  WORKFLOW
@@ -31,53 +30,53 @@ const exportController = require('./app/controllers/export');
 
 // create a command line parser
 const program = require('commander');
-program.version('0.0.1');
 
-// configure global options
-program.option('-v, --verbose', 'display verbose messages')
+program
+    .version('0.0.1')
+    .usage('[options] <file ...>')
+    .option('-v, --verbose', 'display verbose messages')
     .option('-d, --debug', 'simulates command without actually executing it');
 
 // configure import command
-program.command('import <json_source>')
+program
+    .command('import <json_source>')
+    .version('0.0.1')
     .description('imports a localization JSON file into Google Drive')
     .option("-f, --force", "forces import, even if validation fails")
     .action(function(json_source, options) {
-        console.info('importing file: %s', json_source);
-/*
-        const configuration = new ImportConfiguration();
+        //const configuration = new Configuration();
+
         configuration.json = json_source;
         configuration.force = options.force;
         configuration.verbose = program.verbose;
         configuration.debug = program.debug;
-*/
-        // TODO: execute import command
-        //importController.execute(configuration);
-    });
+
+        console.info('importing file: %s', json_source);
+        importController.execute(configuration);        
+
+    })
+    //.parse(process.argv);
 
 // configure export command
-program.command('export <destination_json>')
+program
+    .command('export <destination_json>')
     .description('exports Google Drive localization to a local JSON file')
-    .action(function(destination_json) {
+    .action(function(destination_json, options) {
+
+        configuration.output_json_copy = destination_json;
+        configuration.force = options.force;
+        configuration.verbose = program.verbose;
+        configuration.debug = program.debug;
+        
         console.info('exporting file to: %s', destination_json);
+        exportController.execute(configuration);
     });
 
-// parse command line args
 program.parse(process.argv);
 
-//read_copy_test(command);
+var request = program.args;
 
-/**
- *
- * @param command
- * @returns {*}
- */
-/*
-function read_copy_test(command){
-    return new Promise(function (fulfill, reject){
-        copyController.processCommand(command, function (err){
-            if (err) reject(err);
-            else fulfill(console.log(data));
-        });
-    });
+if (!request.length) {
+    console.error('A request is required.');
+    process.exit(1);
 }
-*/

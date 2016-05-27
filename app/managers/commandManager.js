@@ -27,6 +27,8 @@ module.exports.writeToCloud = function (callback) {
  * @param callback
  */
 module.exports.writeToCopy = function (callback) {
+    console.log("COMMAND MANAGER - writeToCloud()");
+
     /*
     // 1) read Google Spreadsheet
     cloudManager.readFromCloud();

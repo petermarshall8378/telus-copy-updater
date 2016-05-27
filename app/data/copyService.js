@@ -8,6 +8,8 @@ var file = "input/global_lang.json";
  * @return {Array} jsonArray
  */
 module.exports.getJSON = function (callback) {
+    console.log("COPY SERVICE - readJSON()");
+
     jsonfile.readFile(file, function (err, data) {
         if (err)
             callback(err);
@@ -22,6 +24,8 @@ module.exports.getJSON = function (callback) {
  * @return {Array} jsonArray -- differences? conflicts? updated?
  */
 module.exports.writeJSON = function(jsonArray, callback) {
+    console.log("COPY SERVICE - writeJSON()");
+
     jsonfile.writeFile("output/write_copy.json", function(err, data) {
         if (err)
             callback(err);

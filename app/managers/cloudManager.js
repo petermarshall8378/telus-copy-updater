@@ -9,6 +9,7 @@ var cloudService = require("../data/cloudService");
  *      -
  */
 module.exports.readFromCloud = function (callback) {
+    console.log("*** CLOUD MANAGER *** READ FROM CLOUD ***");
     cloudService.getJSON(function (err, data) {
         if (err)
             callback(err);
@@ -22,6 +23,7 @@ module.exports.readFromCloud = function (callback) {
  * @return {Array} jsonArray - status result
  */
 module.exports.writeToCloud = function (jsonArray, callback) {
+    console.log("*** CLOUD MANAGER *** WRITE TO COPY ***");
     cloudService.writeJSON(jsonArray, function (err, data) {
        if (err)
            callback(err);

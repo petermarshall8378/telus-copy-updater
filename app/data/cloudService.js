@@ -27,6 +27,8 @@ var spreadsheet = Spreadsheet.load({
  */
 
 module.exports.getJSON = function(callback) {
+    console.log("*** CLOUD SERVICE *** GET JSON ***");
+
     spreadsheet.receive(function(err, data) {
         if(err)
             callback(err);
@@ -42,6 +44,13 @@ module.exports.getJSON = function(callback) {
  */
 
 module.exports.writeJSON = function(jsonArray, callback) {
-    //spreadsheet.send()
+    console.log("*** CLOUD SERVICE *** WRITE JSON ***");
+    spreadsheet.send(function(err, data) {
+        "use strict";
+        if(err)
+            callback(err);
+
+        callback(null, data);
+    });
 }
 

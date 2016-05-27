@@ -5,11 +5,12 @@ var copyService = require("../data/copyService");
  * @return {Array} jsonArray - status result
  */
 module.exports.readFromCopy = function (callback) {
+    console.log("*** COPY MANAGER *** READ FROM COPY ***");
     copyService.getJSON(function (err, data) {
         if (err)
             callback(err);
 
-        //console.log("manager level...");
+        
         callback(null, data);
     });
 };
@@ -19,6 +20,6 @@ module.exports.readFromCopy = function (callback) {
  * @return {Array} jsonArray - status result
  */
 module.exports.writeToCopy = function (callback) {
-
+    console.log("*** COPY MANAGER *** WRITE TO COPY ***");
 };
 
