@@ -6,23 +6,25 @@
  * @returns {{isVerbose: isVerbose, inDebugMode: inDebugMode}}
  * @constructor
  */
-function Configuration() {
+class Configuration {
 
-    var verbose = false;
-    var debug = false;
-
-    function isVerbose() {
-        return verbose;
+    constructor() {
+        this.verbose = false;
+        this.debug = true;
     }
 
-    function inDebugMode() {
-        return debug;
+    isVerbose() {
+        return this.verbose;
     }
 
-    return {
-        isVerbose: isVerbose,
-        inDebugMode: inDebugMode,
+    inDebugMode() {
+        return this.debug;
     }
+
+    /*return {
+     isVerbose: isVerbose,
+     inDebugMode: inDebugMode,
+     }*/
 }
 module.exports = Configuration;
 

@@ -11,13 +11,15 @@ module.exports.writeToCloud = function (callback) {
     // 2) validate
     // 3) write to Copy
 
-    console.log("COMMAND MANAGER - writeToCloud()");
+    console.log("*** COMMAND MANAGER - writeToCloud() ***");
     copyManager.readFromCopy(function (err, data) {
         if (err)
             callback(err);
 
-        //console.log(data);
-        validate_copy(data, cloudManager.writeToCloud(data));
+        console.log("*** data read from copy ***");
+        console.log(data);
+        console.log("*** data read from copy ***");
+        //validate_copy(data, cloudManager.writeToCloud(data));
         //callback(null, data);
     });
 };
@@ -27,15 +29,29 @@ module.exports.writeToCloud = function (callback) {
  * @param callback
  */
 module.exports.writeToCopy = function (callback) {
-    console.log("COMMAND MANAGER - writeToCloud()");
-
     /*
-    // 1) read Google Spreadsheet
-    cloudManager.readFromCloud();
-    // 2) validate
-    jsonValidator.validate();
-    // 3) write to Copy
-    copyManager.writeToCopy();*/
+     // 1) read Google Spreadsheet
+     cloudManager.readFromCloud();
+     // 2) validate
+     jsonValidator.validate();
+     // 3) write to Copy
+     copyManager.writeToCopy();
+     */
+
+    console.log("*** COMMAND MANAGER - writeToCopy() ***");
+
+    cloudManager.readFromCloud(function (err, data) {
+        if (err)
+            callback(err);
+
+        console.log("*** data read from cloud ***");
+        console.log(data);
+        console.log("*** data read from cloud ***");
+
+        //validate_copy(data, copyManager.writeToCopy(data));
+        //callback(null, data);
+    });
+
 };
 
 /**

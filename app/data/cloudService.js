@@ -4,7 +4,7 @@ var Spreadsheet = require('edit-google-spreadsheet');
 var spreadsheetId = "1a5wbkOdHirt315JnbOyKZMYOTptv7bvgN6Re7C_DmSE";
 var worksheetId = "od6";
 var serviceAccount = "copyupdater@copyupdater.iam.gserviceaccount.com";
-var keyFile = "./key.pem";
+var keyFile = "./certs/key.pem";
 
 /**
  * Authenticated master copy spreadsheet can remain private
@@ -16,9 +16,10 @@ var spreadsheet = Spreadsheet.load({
     oauth : {
         email: serviceAccount,
         keyFile: keyFile
-    },
-}, function () {
-
+    }
+}, function sheetReady(err, spreadsheet) {
+    if(err)
+        throw err;
 });
 
 /**
@@ -29,12 +30,33 @@ var spreadsheet = Spreadsheet.load({
 module.exports.getJSON = function(callback) {
     console.log("*** CLOUD SERVICE *** GET JSON ***");
 
+    spreadsheet = Spreadsheet.load({
+        debug: true,
+        spreadsheetId: spreadsheetId,
+        worksheetId: worksheetId,
+        oauth : {
+            email: serviceAccount,
+            keyFile: keyFile
+        }
+    }, function sheetReady(err, spreadsheet) {
+        if(err)
+            throw err;
+
+        spreadsheet.receive(function(err, rows, info) {
+            if(err) throw err;
+            console.log("Found rows:", rows);
+        });
+    });
+
+    /*
     spreadsheet.receive(function(err, data) {
         if(err)
             callback(err);
 
+        console.log(data);
         callback(null, data);
     });
+    */
 };
 
 /**
@@ -45,12 +67,13 @@ module.exports.getJSON = function(callback) {
 
 module.exports.writeJSON = function(jsonArray, callback) {
     console.log("*** CLOUD SERVICE *** WRITE JSON ***");
+    /*
     spreadsheet.send(function(err, data) {
         "use strict";
         if(err)
             callback(err);
 
         callback(null, data);
-    });
+    });*/
 }
 

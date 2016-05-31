@@ -1,9 +1,10 @@
 "use strict";
 
 // imports
-const configuration = require('./app/controllers/configuration');
-const importController = require('./app/controllers/import');
-const exportController = require('./app/controllers/export');
+const importConfiguration   = require('./app/controllers/importConfiguration');
+const exportConfiguration   = require('./app/controllers/exportConfiguration');
+const commandController     = require('./app/controllers/commandController');
+const program               = require('commander');
 
 /**
  *  WORKFLOW
@@ -25,11 +26,7 @@ const exportController = require('./app/controllers/export');
  *      c) write to JSON files - codebase is updated!
  *  6) Updated JSON file updates the Sketch designs (DESIGNER)
  *      a) through Sketch - designs are updated!
- *
  */
-
-// create a command line parser
-const program = require('commander');
 
 program
     .version('0.0.1')
@@ -37,39 +34,48 @@ program
     .option('-v, --verbose', 'display verbose messages')
     .option('-d, --debug', 'simulates command without actually executing it');
 
-// configure import command
+/**
+ *  Configure import command
+ */
 program
     .command('import <json_source>')
     .version('0.0.1')
     .description('imports a localization JSON file into Google Drive')
     .option("-f, --force", "forces import, even if validation fails")
     .action(function(json_source, options) {
-        //const configuration = new Configuration();
-
+/*
+        const configuration = new Configuration();
         configuration.json = json_source;
         configuration.force = options.force;
         configuration.verbose = program.verbose;
         configuration.debug = program.debug;
-
+*/
         console.info('importing file: %s', json_source);
-        importController.execute(configuration);        
 
+        commandController.writeToCloud(function() {
+            console.log("*** APP - writeToCopy callback ***");
+        })
     })
-    //.parse(process.argv);
 
-// configure export command
+/**
+ *  Configure export command
+ */
 program
     .command('export <destination_json>')
     .description('exports Google Drive localization to a local JSON file')
     .action(function(destination_json, options) {
-
+/*
         configuration.output_json_copy = destination_json;
         configuration.force = options.force;
         configuration.verbose = program.verbose;
         configuration.debug = program.debug;
-        
+ */
         console.info('exporting file to: %s', destination_json);
-        exportController.execute(configuration);
+
+        commandController.writeToCopy(function () {
+            console.log("*** APP - writeToCopy callback ***");
+        });
+
     });
 
 program.parse(process.argv);

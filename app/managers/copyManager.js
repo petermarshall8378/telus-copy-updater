@@ -21,5 +21,12 @@ module.exports.readFromCopy = function (callback) {
  */
 module.exports.writeToCopy = function (callback) {
     console.log("*** COPY MANAGER *** WRITE TO COPY ***");
+    copyService.writeJSON(function (err, data) {
+        if (err)
+            callback(err);
+
+
+        callback(null, data);
+    });
 };
 
